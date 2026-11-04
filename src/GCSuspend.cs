@@ -210,8 +210,8 @@ namespace GCSuspend
             if (!InitPatcher())
             {
                 _patchFailed = true;
-                Warn("Failed to load monoPatcher.dll, this plugin will not work. "
-                     + "(Requires BepInEx/plugins/monoPatcher.dll, bundled with CharaAnime)");
+                Warn("Could not locate the GC counter and monoPatcher.dll is unavailable - "
+                     + "this plugin will not work. (monoPatcher.dll is bundled with CharaAnime)");
                 return;
             }
 
