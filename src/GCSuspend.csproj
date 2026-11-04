@@ -1,16 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <!--
-    独立插件：GC Suspend（挂起托管 GC，消除周期性 GC 停顿）
-    编译：
-      export DOTNET_ROOT="<工作区>/05_工具链/dotnet"
-      dotnet build -c Release -p:GameDir="I:/Koikatu"
-    产物：bin/Release/GCSuspend.dll → 丢到 BepInEx/plugins/
+    Standalone plugin: GC Suspend (suspends the managed GC to remove periodic stutter)
 
-    依赖：运行时要 BepInEx/plugins/monoPatcher.dll（CharaAnime 自带），
-          编译时不引用它 —— 运行时用 LoadLibrary + GetProcAddress 动态取函数。
+    Build:
+      export DOTNET_ROOT="/path/to/dotnet"
+      dotnet build -c Release -p:GameDir="/path/to/Koikatu"
+
+    Output: bin/Release/GCSuspend.dll -> drop into BepInEx/plugins/
+
+    Runtime dependency: BepInEx/plugins/monoPatcher.dll (bundled with CharaAnime).
+    It is not referenced at compile time - the exports are resolved at runtime
+    through LoadLibrary + GetProcAddress.
   -->
   <PropertyGroup>
+    <!-- Change this to your own game folder, or pass -p:GameDir=... on the command line -->
     <GameDir Condition="'$(GameDir)' == ''">I:/Koikatu</GameDir>
 
     <TargetFramework>net35</TargetFramework>
@@ -21,7 +25,7 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <Company>https://github.com/HanYuanyi</Company>
-    <Description>GC Suspend - 挂起 Boehm GC 消除周期性停顿</Description>
+    <Description>GC Suspend - suspends the Boehm GC to remove periodic collection stutter</Description>
     <AssemblyTitle>GCSuspend</AssemblyTitle>
     <Product>GC Suspend</Product>
     <NoWarn>$(NoWarn);CS0618;CS0649;CS0169</NoWarn>
@@ -30,7 +34,6 @@
   <ItemGroup>
     <Compile Remove="bin/**/*.cs" />
     <Compile Remove="obj/**/*.cs" />
-    <Compile Remove="源码_反编译恢复/**/*.cs" />
   </ItemGroup>
 
   <ItemGroup>
