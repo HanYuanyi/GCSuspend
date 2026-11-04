@@ -9,9 +9,12 @@
 
     Output: bin/Release/GCSuspend.dll -> drop into BepInEx/plugins/
 
-    Runtime dependency: BepInEx/plugins/monoPatcher.dll (bundled with CharaAnime).
-    It is not referenced at compile time - the exports are resolved at runtime
-    through LoadLibrary + GetProcAddress.
+    No required runtime dependency. The GC suspend counter is located by a byte
+    signature inside mono.dll and written directly with Marshal.WriteInt32.
+
+    monoPatcher.dll (bundled with CharaAnime) is only a fallback: if the
+    signature cannot be found, the exports are resolved at runtime through
+    LoadLibrary + GetProcAddress. That path is optional and rarely used.
   -->
   <PropertyGroup>
     <!-- Change this to your own game folder, or pass -p:GameDir=... on the command line -->
