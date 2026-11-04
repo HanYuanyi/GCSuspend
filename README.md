@@ -10,6 +10,8 @@ Unity 5.6 uses Mono with the Boehm collector — non-generational and fully stop
 
 It locates the GC suspend counter inside `mono.dll` and keeps it above zero, which makes the collector skip its automatic runs. A watchdog checks the managed heap every few seconds and briefly re-enables collection only when the heap exceeds a configurable limit, then suspends it again.
 
+The H-scene detection in the plugin is intended for Koikatsu's FreeH. It enables GC suspension when entering FreeH is detected and automatically disables it upon exit. Pressing F8 opens the memory monitoring panel.
+
 ## How the counter is located
 
 **No hardcoded offsets.** The plugin scans the `.text` section for a byte signature:
