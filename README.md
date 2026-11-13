@@ -66,11 +66,11 @@ The heap limit above only handles the **managed heap**. Process memory (what the
 
 Because the pages stay in RAM as standby, this is not "freeing memory" — it is handing it back early so the rest of the machine keeps running smoothly. A side effect is that the task manager number for the game drops sharply; that is expected.
 
-## Keep ResourceUnloadOptimizations installed
+## ResourceUnloadOptimizations
 
-`KK_Fix_ResourceUnloadOptimizations` handles **native Unity asset** unloading. This plugin only controls the **managed heap**. They manage different pools of memory and do not conflict.
+`KK_Fix_ResourceUnloadOptimizations` handles **native Unity asset** unloading. This plugin controls the **managed heap** and, separately, the process working set. They manage different things and do not conflict — you can leave RUO on.
 
-Note that RUO's `Disable Resource Unload` option disables native asset unloading entirely — that is a separate concern and this plugin cannot compensate for it. If your process memory keeps climbing to the physical limit, check that option first.
+Everything in this README was tested with both RUO options enabled, and it made no difference: RUO's `Disable Resource Unload` keeps native assets from being unloaded, but the working set trim above still hands those pages back to the system, so the machine does not run out of free memory and nothing else starts loading slowly.
 
 ## Diagnostics
 
